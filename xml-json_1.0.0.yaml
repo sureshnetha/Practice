@@ -1,0 +1,67 @@
+---
+swagger: "2.0"
+info:
+  x-ibm-name: "xml-json"
+  title: "xml-json"
+  version: "1.0.0"
+schemes:
+- "https"
+host: "$(catalog.host)"
+basePath: "/xml-json"
+consumes:
+- "application/json"
+- "application/xml"
+produces:
+- "application/xml"
+- "application/json"
+securityDefinitions:
+  clientIdHeader:
+    type: "apiKey"
+    in: "header"
+    name: "X-IBM-Client-Id"
+security:
+- clientIdHeader: []
+x-ibm-configuration:
+  testable: true
+  enforced: true
+  cors:
+    enabled: true
+  assembly:
+    execute:
+    - xml-to-json:
+        title: "xml-to-json"
+        version: "1.0.0"
+  phase: "realized"
+paths:
+  /path-1:
+    post:
+      responses:
+        200:
+          description: "200 OK"
+    parameters:
+    - $ref: "#/parameters/Input-Data"
+definitions:
+  new-definition-1:
+    description: ""
+    type: "object"
+    properties:
+      Details:
+        type: "object"
+        properties:
+          name:
+            type: "string"
+          id:
+            type: "string"
+        xml:
+          namespace: ""
+    xml:
+      namespace: ""
+    example: "<Details>\n  <name>suresh</name>\n  <id>810</id>\n </Details>"
+tags: []
+parameters:
+  Input-Data:
+    name: "Input-Data"
+    required: true
+    in: "body"
+    schema:
+      $ref: "#/definitions/new-definition-1"
